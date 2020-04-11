@@ -11,6 +11,9 @@ public final class EnvFile {
      */
     public static void load() {
         try (FileReader fs = new FileReader(".env"); BufferedReader br = new BufferedReader(fs)) {
+            String line;
+            while ((line = br.readLine()) != null) {
+            }
         } catch (IOException e) {
             // .env file not exists, nothing happened
         }
