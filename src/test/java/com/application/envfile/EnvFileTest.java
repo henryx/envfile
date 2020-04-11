@@ -1,7 +1,12 @@
 package com.application.envfile;
 
-import static org.junit.Assert.*;
+import org.junit.Test;
 
 public class EnvFileTest {
+
+    @Test
+    public void loadEnv() {
+        EnvFile.load();
+    }
 
 }
