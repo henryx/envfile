@@ -24,6 +24,12 @@ public final class EnvFile {
     }
 
     private static void setEnv(String key, String value) throws ClassNotFoundException, NoSuchFieldException, IllegalAccessException {
+        if (System.getProperty("os.name").startsWith("Windows")) {
+            setEnvWindows(key, value);
+        }
+    }
+
+    private static void setEnvWindows(String key, String value) throws ClassNotFoundException, NoSuchFieldException, IllegalAccessException {
         Class<?> processEnvironmentClass;
         Field theEnvironmentField;
         Map<String, String> env;
