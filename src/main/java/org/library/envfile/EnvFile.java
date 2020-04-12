@@ -2,7 +2,6 @@ package org.library.envfile;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.Collections;
 import java.util.Map;
@@ -21,7 +20,7 @@ public final class EnvFile {
                     setEnv(parts[0], parts[1]);
                 }
             }
-        } catch (IOException | ReflectiveOperationException e) {
+        } catch (Exception e) {
             // .env file not exists, nothing happened
         }
     }
