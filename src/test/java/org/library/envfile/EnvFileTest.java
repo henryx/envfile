@@ -1,4 +1,4 @@
-package com.application.envfile;
+package org.library.envfile;
 
 import org.junit.Assert;
 import org.junit.Test;
