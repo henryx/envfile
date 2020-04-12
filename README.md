@@ -1,6 +1,10 @@
 # EnvFile
 A [12-factor](https://12factor.net/config) Java API configuration library
 
+## Compatibility
+
+This library is written for Java 8 or great
+
 ## Install
 
 With maven, you should compile with:
@@ -30,13 +34,27 @@ you can load it with this code:
 import org.library.envfile.EnvFile;
 
 public class Example {
-    public static void main(String... args) {
+    public static void main(String[] args) {
         EnvFile.load();
         System.out.println(System.getenv("VAR1"));
         System.out.println(System.getenv("VAR2"));
     }
 }
 ```
+
+Another usage is to specify entire path of the env file:
+```java
+import org.library.envfile.EnvFile;
+
+public class Example2 {
+    public static void main(String[] args) {
+        EnvFile.load("/path/for/.env");
+        System.out.println(System.getenv("VAR1"));
+        System.out.println(System.getenv("VAR2"));
+    }
+}
+```
+
 
 ## Notes
 
@@ -45,5 +63,5 @@ This means that when you use this library, you might receive this warning:
 ```
 WARNING: An illegal reflective access operation has occurred
 ```
-To suppress this warning, use `--illegal-access=warn` as JVM option. Sadly, at the moment, I cannot kno another method to
+To suppress this warning, use `--illegal-access=warn` as JVM option. Sadly, at the moment, I cannot know another method to
 avoid it
