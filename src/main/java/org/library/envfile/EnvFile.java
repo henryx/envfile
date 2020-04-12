@@ -14,7 +14,16 @@ public final class EnvFile {
      * Load .env file as system variable
      */
     public static void load() {
-        try (FileReader fs = new FileReader(".env"); BufferedReader br = new BufferedReader(fs)) {
+
+    }
+
+    /**
+     * Load env file as system variable
+     *
+     * @param envfile Path of the env file
+     */
+    public static void load(String envfile) {
+        try (FileReader fs = new FileReader(envfile); BufferedReader br = new BufferedReader(fs)) {
             String line, value;
 
             while ((line = br.readLine()) != null) {
@@ -35,14 +44,6 @@ public final class EnvFile {
         } catch (IOException e) {
             // .env file not exists, nothing happened
         }
-    }
-
-    /**
-     * Load env file as system variable
-     * @param envfile Path of the env file
-     */
-    public static void load(String envfile) {
-
     }
 
     private static void setEnv(String key, String value) throws ClassNotFoundException, NoSuchFieldException, IllegalAccessException {
