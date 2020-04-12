@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.util.Collections;
 import java.util.Map;
 
 public final class EnvFile {
@@ -26,6 +27,9 @@ public final class EnvFile {
     private static void setEnv(String key, String value) throws ClassNotFoundException, NoSuchFieldException, IllegalAccessException {
         if (System.getProperty("os.name").startsWith("Windows")) {
             setEnvWindows(key, value);
+        } else {
+            // TODO: check if this method works on other POSIX systems
+            setEnvLinux(key, value);
         }
     }
 
@@ -47,5 +51,27 @@ public final class EnvFile {
         theCaseInsensitiveEnvironmentField.setAccessible(true);
         cienv = (Map<String, String>) theCaseInsensitiveEnvironmentField.get(null);
         cienv.put(key, value);
+    }
+
+    private static void setEnvLinux(String key, String value) throws NoSuchFieldException, IllegalAccessException {
+        Class[] classes;
+        Map<String, String> env;
+        Field field;
+        Object obj;
+        Map<String, String> map;
+
+        classes = Collections.class.getDeclaredClasses();
+        env = System.getenv();
+
+        for (Class cl : classes) {
+            if ("java.util.Collections$UnmodifiableMap".equals(cl.getName())) {
+                field = cl.getDeclaredField("m");
+                field.setAccessible(true);
+
+                obj = field.get(env);
+                map = (Map<String, String>) obj;
+                map.put(key, value);
+            }
+        }
     }
 }
