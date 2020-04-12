@@ -37,6 +37,14 @@ public final class EnvFile {
         }
     }
 
+    /**
+     * Load env file as system variable
+     * @param envfile Path of the env file
+     */
+    public static void load(String envfile) {
+
+    }
+
     private static void setEnv(String key, String value) throws ClassNotFoundException, NoSuchFieldException, IllegalAccessException {
         if (System.getProperty("os.name").startsWith("Windows")) {
             setEnvWindows(key, value);
