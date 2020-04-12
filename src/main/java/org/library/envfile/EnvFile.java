@@ -16,8 +16,10 @@ public final class EnvFile {
         try (FileReader fs = new FileReader(".env"); BufferedReader br = new BufferedReader(fs)) {
             String line;
             while ((line = br.readLine()) != null) {
-                String[] parts = line.split("=");
-                setEnv(parts[0], parts[1]);
+                if (!line.equals("")) {
+                    String[] parts = line.split("=");
+                    setEnv(parts[0], parts[1]);
+                }
             }
         } catch (IOException | ReflectiveOperationException e) {
             // .env file not exists, nothing happened
