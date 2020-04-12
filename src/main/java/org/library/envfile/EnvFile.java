@@ -13,11 +13,17 @@ public final class EnvFile {
      */
     public static void load() {
         try (FileReader fs = new FileReader(".env"); BufferedReader br = new BufferedReader(fs)) {
-            String line;
+            String line, value;
+
             while ((line = br.readLine()) != null) {
                 if (!line.equals("")) {
                     String[] parts = line.split("=");
-                    setEnv(parts[0], parts[1]);
+                    if (parts[1].startsWith("\"") || parts[1].startsWith("'")) {
+                        value = parts[1].substring(1, parts[1].length()-1);
+                    } else {
+                        value = parts[1];
+                    }
+                    setEnv(parts[0], value);
                 }
             }
         } catch (Exception e) {
