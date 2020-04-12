@@ -1,7 +1,9 @@
 package org.library.envfile;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.Collections;
 import java.util.Map;
@@ -16,17 +18,21 @@ public final class EnvFile {
             String line, value;
 
             while ((line = br.readLine()) != null) {
-                if (!line.equals("")) {
-                    String[] parts = line.split("=");
-                    if (parts[1].startsWith("\"") || parts[1].startsWith("'")) {
-                        value = parts[1].substring(1, parts[1].length()-1);
-                    } else {
-                        value = parts[1];
+                try {
+                    if (!line.equals("")) {
+                        String[] parts = line.split("=");
+                        if (parts[1].startsWith("\"") || parts[1].startsWith("'")) {
+                            value = parts[1].substring(1, parts[1].length() - 1);
+                        } else {
+                            value = parts[1];
+                        }
+                        setEnv(parts[0], value);
                     }
-                    setEnv(parts[0], value);
+                } catch (Exception e) {
+                    // something went wrong when load variable, ignoring it
                 }
             }
-        } catch (Exception e) {
+        } catch (IOException e) {
             // .env file not exists, nothing happened
         }
     }
