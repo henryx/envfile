@@ -10,6 +10,6 @@ public class EnvFileTest {
         EnvFile.load();
 
         Assert.assertEquals("ok", System.getenv("LOADED"));
+        Assert.assertEquals("ok", System.getenv("LOADED2"));
     }
-
 }
