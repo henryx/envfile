@@ -1,7 +1,6 @@
 package org.library.envfile;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -61,18 +60,25 @@ public final class EnvFile {
         Map<String, String> env;
         Field theCaseInsensitiveEnvironmentField;
         Map<String, String> cienv;
+        boolean accessible;
 
         processEnvironmentClass = Class.forName("java.lang.ProcessEnvironment");
         theEnvironmentField = processEnvironmentClass.getDeclaredField("theEnvironment");
+
+        accessible = theEnvironmentField.isAccessible();
         theEnvironmentField.setAccessible(true);
 
         env = (Map<String, String>) theEnvironmentField.get(null);
         env.put(key, value);
+        theEnvironmentField.setAccessible(accessible);
 
         theCaseInsensitiveEnvironmentField = processEnvironmentClass.getDeclaredField("theCaseInsensitiveEnvironment");
+        accessible = theCaseInsensitiveEnvironmentField.isAccessible();
         theCaseInsensitiveEnvironmentField.setAccessible(true);
+
         cienv = (Map<String, String>) theCaseInsensitiveEnvironmentField.get(null);
         cienv.put(key, value);
+        theCaseInsensitiveEnvironmentField.setAccessible(accessible);
     }
 
     private static void setEnvLinux(String key, String value) throws NoSuchFieldException, IllegalAccessException {
@@ -81,6 +87,7 @@ public final class EnvFile {
         Field field;
         Object obj;
         Map<String, String> map;
+        boolean accessible;
 
         classes = Collections.class.getDeclaredClasses();
         env = System.getenv();
@@ -88,11 +95,14 @@ public final class EnvFile {
         for (Class cl : classes) {
             if ("java.util.Collections$UnmodifiableMap".equals(cl.getName())) {
                 field = cl.getDeclaredField("m");
+                accessible = field.isAccessible();
                 field.setAccessible(true);
 
                 obj = field.get(env);
                 map = (Map<String, String>) obj;
                 map.put(key, value);
+
+                field.setAccessible(accessible);
             }
         }
     }
