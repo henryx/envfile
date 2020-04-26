@@ -27,7 +27,7 @@ public final class EnvFile {
 
             while ((line = br.readLine()) != null) {
                 try {
-                    if (!line.equals("")) {
+                    if (!line.equals("") && !line.startsWith("#")) {
                         String[] parts = line.split("=");
                         if (parts[1].startsWith("\"") || parts[1].startsWith("'")) {
                             value = parts[1].substring(1, parts[1].length() - 1);
