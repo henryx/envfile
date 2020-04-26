@@ -6,7 +6,7 @@
 
     <groupId>org.library</groupId>
     <artifactId>envfile</artifactId>
-    <version>0.2.1</version>
+    <version>0.3.0</version>
 
     <build>
         <plugins>
